@@ -18,7 +18,7 @@ public class Main {
         //Allows us to access those values within the array
         int nRan = rand.nextInt(5);
 
-        //THis is the number of domains
+        //This is the number of domains
         int N = integerArray[nRan];
 
 
@@ -29,7 +29,7 @@ public class Main {
         int mRan = rand.nextInt(5);
 
 
-        //THis is the number of objects
+        //This is the number of objects
         int M = integerArray[mRan];
 
 
@@ -43,7 +43,7 @@ public class Main {
         //This only creates the size of the matrix. We might have to add an extra column and row to write the
         //actual names
         String[][] accessMatrix = new String[N][M + N];
-        //String[][] accessMatrix = new String[3][4];
+
 
 
 
@@ -64,8 +64,8 @@ public class Main {
 
 
         //The matrix gets populated with the rights from the object array and the domain array
-        for(int row = 1; row < accessMatrix.length; row++){
-            System.out.print("D" + row + "   ");
+        for(int row = 0; row < accessMatrix.length; row++){
+            System.out.print("D" + (row /*+ 1*/) + "   ");
 
             //Only fills the object column
             for(int col = 0; col < accessMatrix[row].length; col++){
@@ -81,7 +81,6 @@ public class Main {
                     int domainRandom = rand.nextInt(2);
                     String randomRight = domainArray[domainRandom];
                     accessMatrix[row][col] = randomRight;
-                    //System.out.print(accessMatrix[col] + "   ");
                     System.out.print(accessMatrix[row][col] + "   ");
 
                 }
@@ -90,7 +89,16 @@ public class Main {
         }
 
         System.out.println(" ");
-        System.out.println("This is the first element at 0,0: " + accessMatrix[0][0]);
+        System.out.println(" ");
+
+
+
+        //Creates the thread to access different objects. This is based on the number of domains we have
+        for (int domainThreadCount = 0; domainThreadCount<N; domainThreadCount++){
+            AccessMatrix threadObject = new AccessMatrix(domainThreadCount, accessMatrix, N, M);
+            threadObject.start();
+        }
+
 
 
 

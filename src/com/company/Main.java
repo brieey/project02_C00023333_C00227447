@@ -1,5 +1,9 @@
 package com.company;
+import org.w3c.dom.Node;
+
+import java.util.ArrayList;
 import java.util.Random;
+import java.util.LinkedList;
 
 
 
@@ -91,6 +95,49 @@ public class Main {
 
         System.out.println(" ");
         System.out.println("This is the first element at 0,0: " + accessMatrix[0][0]);
+
+        //Integer array for the number of Domains
+        //int[]  =
+
+        //populating the Access Control List
+        //node class to represent the objects
+        class Node {
+            String domain;
+            String accessRight;
+        }
+        LinkedList<ArrayList> accessList = new LinkedList<>();
+
+        System.out.println();
+
+        // populating the objects of the Access List
+        for (int i = 0 ; i < M; i++){
+            ArrayList <String> operations = new ArrayList<String>();
+            for (int j = 0; j < N; j++){
+                //String op = objectArray[rand.nextInt(4)];
+                operations.add("D" + (j+1) + ":" + objectArray[rand.nextInt(4)]);
+                System.out.print(operations.get(j) + " ");
+            }
+            accessList.add(i, operations);
+        }
+
+        // populating the domain objects of the Access List
+       for (int i = M; i < M+N; i++){
+            ArrayList <String> switches = new ArrayList<String>();
+            for (int j = 0; j < N; j++){
+                //String op = objectArray[rand.nextInt(4)];
+                switches.add("D" + (j+1) + ":" + domainArray[rand.nextInt(2)]);
+                //System.out.print(switches.get(j) + " ");
+            }
+            accessList.add(i, switches);
+        }
+
+
+        /*System.out.println();
+        for (int i = 0; i < accessList.size(); i++){
+            for (int j = 0
+
+        }*/
+
 
 
 

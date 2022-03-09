@@ -181,6 +181,12 @@ public class Main {
 
 
         //-------------------------------------------------Task 3-----------------------------------------------------
+        // Begin code changes by Brianna N. Jordan.
+        // Linked List that makes it domain based
+        LinkedList<ArrayList> capabilityList = new LinkedList<>();
+        // End code changes by Brianna N. Jordan.
+
+
 
 
 

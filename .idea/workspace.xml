@@ -4,9 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a58c7db9-165c-4df1-ac64-2095912f259d" name="Changes" comment="Matrix is complete now.">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/company/AccessMatrix.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/company/AccessMatrix.java" afterDir="false" />
+    <list default="true" id="a58c7db9-165c-4df1-ac64-2095912f259d" name="Changes" comment="Threads are forked.">
+      <change beforePath="$PROJECT_DIR$/src/com/company/CapabilityList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/company/CapabilityList.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/company/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/company/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -85,7 +84,14 @@
       <option name="project" value="LOCAL" />
       <updated>1646787089977</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Threads are forked.">
+      <created>1646798414271</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1646798414271</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -114,6 +120,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="New classes were added for the tasks." />
     <MESSAGE value="Matrix is complete now." />
-    <option name="LAST_COMMIT_MESSAGE" value="Matrix is complete now." />
+    <MESSAGE value="Threads are forked." />
+    <option name="LAST_COMMIT_MESSAGE" value="Threads are forked." />
   </component>
 </project>

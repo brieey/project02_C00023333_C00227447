@@ -104,31 +104,22 @@ public class Main {
         }
 
         //-------------------------------------------------Task 2-----------------------------------------------------
-        //Integer array for the number of Domains
-        //int[]  =
-
-        //populating the Access Control List
-        //node class to represent the objects
-        class Node {
-            String domain;
-            String accessRight;
-        }
+        // Linked List that stores each object as an Array List
         LinkedList<ArrayList> accessList = new LinkedList<>();
 
-        System.out.println();
 
-        // populating the objects of the Access List
+        // populating the objects of the Linked List accessList
         for (int i = 0 ; i < M; i++){
             ArrayList <String> operations = new ArrayList<String>();
             for (int j = 0; j < N; j++){
                 //String op = objectArray[rand.nextInt(4)];
                 operations.add("D" + (j+1) + ":" + objectArray[rand.nextInt(4)]);
-                System.out.print(operations.get(j) + " ");
+                //System.out.print(operations.get(j) + " ");
             }
             accessList.add(i, operations);
         }
 
-        // populating the domain objects of the Access List
+        // populating the domain objects of  accessList
        for (int i = M; i < M+N; i++){
             ArrayList <String> switches = new ArrayList<String>();
             for (int j = 0; j < N; j++){
@@ -140,11 +131,23 @@ public class Main {
         }
 
 
-        /*System.out.println();
-        for (int i = 0; i < accessList.size(); i++){
-            for (int j = 0
+        System.out.println();
 
-        }*/
+       // Printing the elements of accessList which has the operations that can be performed on object legal domain switching
+        for (int i = 0; i < accessList.size(); i++){
+            if (i < M) {
+                System.out.println("F" + (i+1) + " --> " + accessList.get(i));
+            }
+            else {
+                System.out.println("D" + (-(M-(i+1))) + " --> " + accessList.get(i));
+            }
+        }
+
+        // Creating threads  to access objects and switch domains using the Access List's entries
+        for (int i = 0; i < N; i++){
+            AccessMatrix threadObject = new AccessMatrix(domainThreadCount, accessMatrix, N, M);
+            threadObject.start();
+        }
 
 
 

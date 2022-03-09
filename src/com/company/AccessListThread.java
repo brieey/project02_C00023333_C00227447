@@ -32,35 +32,20 @@ public class AccessListThread extends Thread{
     }
 
     // arbitrator function
-    public boolean Permissions(AccessListThread thread, int objectOrDomain) {
+   /* public boolean Permissions(AccessListThread thread, int objectOrDomain) {
         //read or write for Object
-        if (objectOrDomain == 0){
-            ArrayList elementOfaccessList = (ArrayList) accessList.get(objectOrDomain);
-            /*if(elementOfaccessList.contains){
-
-            }*/
-        }
         if (objectOrDomain <= M) {
-            if (accessList.get(objectOrDomain - 1).) ; {
+            ArrayList elementOfaccessList = (ArrayList) accessList.get(objectOrDomain);
+            if(elementOfaccessList.contains("")){
 
             }
+
         }
-    }
+
+    }*/
 
 
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 // End code changes by Jahzah Jenkins

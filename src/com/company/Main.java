@@ -1,6 +1,5 @@
 package com.company;
-import org.w3c.dom.Node;
-
+import java.nio.CharBuffer;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.LinkedList;
@@ -8,7 +7,6 @@ import java.util.LinkedList;
 
 
 public class Main {
-
 
 
     public static void main(String[] args) {
@@ -128,6 +126,7 @@ public class Main {
 
 
         //-------------------------------------------------Task 2-----------------------------------------------------
+        // Begin Code Changes by Jahzah Jenkins
         // Linked List that stores each object as an Array List
         LinkedList<ArrayList> accessList = new LinkedList<>();
 
@@ -166,12 +165,25 @@ public class Main {
                 System.out.println("D" + (-(M-(i+1))) + " --> " + accessList.get(i));
             }
         }
+        for (int i = 0; i < accessList.size(); i++){
+            if (i < M) {
+                System.out.println("F" + i + " --> " + accessList.get(i));
+            }
+            else {
+                System.out.println("D" + i + " --> " + accessList.get(i));
+            }
+        }
 
         // Creating threads  to access objects and switch domains using the Access List's entries
-        for (int i = 0; i < N; i++){
-            AccessMatrix threadObject = new AccessMatrix(domainThreadCount, accessMatrix, N, M);
-            threadObject.start();
+        for (int i = 0; i < N; i++) {
+            AccessListThread thread = new AccessListThread(M,N,accessList);
+            thread.setName("Thread: " + String.valueOf(i) + "(D" + (i + 1) + ")");
+            System.out.println(thread.getName()); //***TAKE OUT***
         }
+
+
+
+        // End code changes by Jahzah Jenkins
 
 
 

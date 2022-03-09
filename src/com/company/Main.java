@@ -42,55 +42,77 @@ public class Main {
 
 
         //Creates the 2d array
-        //[Rows] [Columns]
-        //There needs to be mRan + nRan of columns because it has to include the objects and the domains
-        //This only creates the size of the matrix. We might have to add an extra column and row to write the
-        //actual names
-        String[][] accessMatrix = new String[N][M + N];
+        // Added one so that I can have an extra row to add the column names
+        String[][] accessMatrix = new String[N + 1][(N+M) + 1];
 
 
 
 
         //This array with the object operations/rights
-        //Can either read, write, read and write, or have no access at all
         String[] objectArray = {"R", "W", "R/W","-"};
 
 
         //Array with the domain operations/rights
-        //Can either switch or not
+        //allow = switch , deny = no switch
         String[] domainArray = {"allow","deny"};
 
 
 
         System.out.println(" ");
-        System.out.println("Domain/Object");
         System.out.println(" ");
 
 
-        //The matrix gets populated with the rights from the object array and the domain array
+        // While 0 < 4. This will allow it to go row by row
         for(int row = 0; row < accessMatrix.length; row++){
-            System.out.print("D" + (row /*+ 1*/) + "   ");
+            //If the row is equal to 0 then we should populate the first row with the column names
+            if(row == 0){
+                // Populates/loops the columns with the names
+                // 0 < 7
+                // Going from 0 to 6 ONLY
+                for(int colNum = 0; colNum < accessMatrix[0].length; colNum++){
+                    if(colNum == 0){
+                        accessMatrix[0][0] = "D/Obj";
+                        System.out.printf("%5s", accessMatrix[0][0] + "   ");
+                    } else if (colNum <= M) {
+                        //Assigns the column for the number of objects
+                        accessMatrix[0][colNum] = "F" + colNum;
+                        System.out.printf("%5s", accessMatrix[0][colNum] + "   ");
+                    } else {
+                        //Assigns the column for the number of domains
+                        accessMatrix[0][colNum] = "D" + (colNum - N);
+                        System.out.printf("%5s", accessMatrix[0][colNum] + "   ");
+                    }
+                }
+            } else {
+                accessMatrix[row][0] = "D" + row;
+                System.out.printf("%5s","D" + row + "   ");
+                // Populates/loops the columns with access rights
+                // 1 < 7
+                for(int colNum = 1; colNum < accessMatrix[0].length; colNum++){
+                    if(colNum <= M){
+                        int objRan = rand.nextInt(4);
+                        String randomOperation = objectArray[objRan];
+                        accessMatrix[row][colNum] = randomOperation;
+                        System.out.printf("%5s",accessMatrix[row][colNum] + "   ");
+                    } else {
+                        int domainRandom = rand.nextInt(2);
+                        String randomRight = domainArray[domainRandom];
+                        accessMatrix[row][colNum] = randomRight;
+                        System.out.printf("%5s", accessMatrix[row][colNum] + "   ");
 
-            //Only fills the object column
-            for(int col = 0; col < accessMatrix[row].length; col++){
-
-                //Adds the objects to the matrix first
-                if(col < accessMatrix[row].length - N ){
-                    int objRan = rand.nextInt(4);
-                    String randomOperation = objectArray[objRan];
-                    accessMatrix[row][col] = randomOperation;
-                    System.out.print(accessMatrix[row][col] + "   ");
-
-                } else {    //Otherwise, it adds the domains
-                    int domainRandom = rand.nextInt(2);
-                    String randomRight = domainArray[domainRandom];
-                    accessMatrix[row][col] = randomRight;
-                    System.out.print(accessMatrix[row][col] + "   ");
+                    }
 
                 }
+
+
             }
+
+            //Starts a new row on another line
             System.out.println();
         }
+
+
+
 
         System.out.println(" ");
         System.out.println(" ");
@@ -102,6 +124,8 @@ public class Main {
             AccessMatrix threadObject = new AccessMatrix(domainThreadCount, accessMatrix, N, M);
             threadObject.start();
         }
+
+
 
         //-------------------------------------------------Task 2-----------------------------------------------------
         //Integer array for the number of Domains

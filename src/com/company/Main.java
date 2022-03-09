@@ -181,10 +181,7 @@ public class Main {
         for (int i = 0; i < N; i++) {
             AccessListThread thread = new AccessListThread(M,N,accessList);
             thread.setName("Thread: " + String.valueOf(i) + "(D" + (i + 1) + ")");
-            System.out.println(thread.getName()); //***TAKE OUT***
-        }
-
-
+        };
 
         // End code changes by Jahzah Jenkins
 

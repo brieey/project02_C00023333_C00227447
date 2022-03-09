@@ -25,8 +25,11 @@ public class AccessListThread extends Thread{
                 new ReadObject(M-1);
             }
             else {
-                new WriteObject(M);
+                new WriteObject(M-1);
             }
+        }
+        else {
+            System.out.println("Attempting to switch from cu");
         }
 
     }

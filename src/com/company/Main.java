@@ -10,6 +10,7 @@ public class Main {
 
 
     public static void main(String[] args) {
+        // Begin code changes by Brianna N. Jordan.
         Random rand = new Random();
 
 
@@ -118,10 +119,12 @@ public class Main {
 
 
         //Creates the thread to access different objects. This is based on the number of domains we have
-        for (int domainThreadCount = 0; domainThreadCount<N; domainThreadCount++){
-            AccessMatrix threadObject = new AccessMatrix(domainThreadCount, accessMatrix, N, M);
+        for (int domainThreadCount = 1; domainThreadCount <= N; domainThreadCount++){
+            AccessMatrix threadObject = new AccessMatrix(domainThreadCount, accessMatrix);
             threadObject.start();
         }
+
+        // End code changes by Brianna Jordan.
 
 
 
@@ -190,6 +193,13 @@ public class Main {
 
 
         //-------------------------------------------------Task 3-----------------------------------------------------
+        // Begin code changes by Brianna N. Jordan.
+        // Linked List that makes it domain based
+        LinkedList<ArrayList> capabilityList = new LinkedList<>();
+        // End code changes by Brianna N. Jordan.
+
+
+
 
 
 

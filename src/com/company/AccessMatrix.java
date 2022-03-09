@@ -4,94 +4,123 @@ import java.util.concurrent.Semaphore;
 import java.util.concurrent.locks.ReentrantLock;
 
 
-
+// Begin code changes by Brianna Jordan.
 public class AccessMatrix extends Thread {
 
 
     private int domainThreadCount;
     private String[][] accessMatrix;
-    private int N;
-    private int M;
 
 
-
-    ReentrantLock lock = new ReentrantLock();
     Semaphore sem = new Semaphore(1);
+    ReentrantLock lock = new ReentrantLock();
 
 
 
-    public AccessMatrix(int domainThreadCount, String[][] accessMatrix, int N, int M){
+    public AccessMatrix(int domainThreadCount, String[][] accessMatrix){
         this.domainThreadCount = domainThreadCount;
         this.accessMatrix = accessMatrix;
-        this.N = N; //Domains or Rows
-        this.M = M; // Objects or Columns
+
     }
 
+    // Examines users rights
+    public void arbFunction(int domainThreadCount, String randomObject, int ranObjColumnNum){
+        // Character array to read from
+        char[] charArrayR = {'A', 'B', 'C', 'D', 'E'};
+        // Character array to get things from to add to the other array
+        char[] charArrayW = {'F', 'G', 'H', 'I', 'J'};
 
 
-    //Tells if a thread has access or not
-    public void arbFunction(String userRight, String[][] accessMatrix, int domainThreadCount, int i){
         int yieldProcess [] = {3, 4, 5, 6, 7};
 
-        //Must check if objects and domains have access seperately
+        // Take the first character of a string to see if it's a domain or object
+        if(randomObject.charAt(0) == 'F'){
+            //Checks the domain at that particular colum and see if it's not null or empty
+            String accessRight = accessMatrix[domainThreadCount][ranObjColumnNum]; //R,W,R/W,-
 
+            // Checks to see if access is allowed
+            // If access is not allowed
+            if(accessRight == "-"){
+                System.out.println("[Thread: " + domainThreadCount + "(D" + domainThreadCount + ")]" + " " + "Operation failed, permission denied." );
+                // No access so we yield and keep going
+                Random rand = new Random();
+                int yRan = rand.nextInt(5);
+                int yieldTime = yieldProcess[yRan];
+                System.out.println("[Thread: " + domainThreadCount + "(D" + domainThreadCount + ")]" + "Yielding " + yieldTime + " times.");
+                for (int j = 0; j<yieldTime; j++){
+                    Thread.yield();
+                }
+            } else { // Executes if access is allowed
+                // Access is allowed so we try claim the semaphore & then yield
+                try{
+                    sem.acquire();
 
+                    //Checks to see which right it is and performs that operation
+                    if(accessRight == "R"){
+                        //
+                        System.out.println("[Thread: " + domainThreadCount + "(D" + domainThreadCount + ")]" + " " +
+                                "Attempting to read resource " + randomObject);
+                        lock.lock();
+                        try{
+                            System.out.println("[Thread: " + domainThreadCount + "(D" + domainThreadCount + ")]" + "Resource " + randomObject + " contains " + new String(charArrayR));
+                        } finally{
+                            lock.unlock();
+                        }
 
-        //If access is allowed, try to claim the semaphore
-        if(userRight != "-" || userRight != "deny"){
-            try{
-                sem.acquire();
+                        Random rand = new Random();
+                        int yRan = rand.nextInt(5);
+                        int yieldTime = yieldProcess[yRan];
+                        System.out.println("[Thread: " + domainThreadCount + "(D" + domainThreadCount + ")] " + " Yielding " + yieldTime + " times.");
+                        for (int j = 0; j<yieldTime; j++){
+                            Thread.yield();
+                        }
 
-                //Checks to see which right it is and performs that operation
-                if(userRight == "R"){
-                    System.out.println("Attempting to read resource");
-                    lock.lock();
-                    try{
-                        System.out.println();
-                    } finally{
-                        lock.unlock();
+                    } else if (accessRight == "W") {
+                        System.out.println("[Thread: " + domainThreadCount + "(D" + domainThreadCount + ")] " +
+                                " Attempting to write to resource " + randomObject);
+                        lock.lock();
+                        try{
+                            //Pick a random letter from the array.
+                            Random rand = new Random();
+                            int ranNum = rand.nextInt(5);
+                            int letter = charArrayW[ranNum];
+                            System.out.println("[Thread: " + domainThreadCount + "(D" + domainThreadCount + ")] " + "Writing " + letter + " to resource " + randomObject);
+                        } finally{
+                            lock.unlock();
+                        }
+
+                        Random rand = new Random();
+                        int yRan = rand.nextInt(5);
+                        int yieldTime = yieldProcess[yRan];
+                        System.out.println("[Thread: " + domainThreadCount + "(D" + domainThreadCount + ")] " + " Yielding " + yieldTime + " times.");
+                        for (int j = 0; j<yieldTime; j++){
+                            Thread.yield();
+                        }
+
+                    } else {
                     }
 
-                } else if (userRight == "W") {
-
-                } else {
-
+                } catch(InterruptedException E){
+                    System.out.println(E);
                 }
 
+                sem.release();
 
-            } catch(InterruptedException E){
-                System.out.println(E);
             }
 
-            sem.release();
 
-        } else {
-            //Randomly gets a number from the yieldProcess array
-            Random ran = new Random();
-            int yRan = ran.nextInt(5);
-            int yieldTime = yieldProcess[yRan];
-            //This is how many times it will yield
-            //We will print to the screen how many times it yielded
-            System.out.println("Yielding " + yieldTime + " times.");
-            for (int j = 0; j<yieldTime; j++){
-                Thread.yield();
+
+        } else { // Otherwise, do this if it's a domain
+            //[Thread: 0(D1)] Attemping to switch from D1 to D5.
+            System.out.println("[Thread:" + " " + domainThreadCount + "(" + randomObject + ")]" + " " + "Attempting to switch from " + "D" + domainThreadCount
+                    + " to " + randomObject);
+
+            if(accessMatrix[domainThreadCount][ranObjColumnNum] == "allow"){
+                System.out.println("[Thread:" + " " + domainThreadCount + "(" + randomObject + ")] " + " Switched to " + randomObject);
+            } else {
+                System.out.println("[Thread:" + " " + domainThreadCount + "(" + randomObject + ")]" + " "+ "Operation failed, permission denied.");
             }
         }
-
-
-
-
-        /*if(accessMatrix[domainThreadCount][i] == "R"){
-            //Lock it and then try to do what it needs to do
-            //Once it's finish, finally unlock it
-            //Reads something. In other words, print something to the screen.
-        } else if(){
-
-        } else if(){
-
-        } else {
-
-        }*/
 
     }
 
@@ -102,62 +131,17 @@ public class AccessMatrix extends Thread {
 
 
     public void run(){
-        //Generate a random number between 0 and the length of the row for the # of columns
-        Random rand = new Random();
-
-        //Gets a number to pick a random object.Corresponds to a column in the matrix
-        int randomObjNum = rand.nextInt(M + N);
-
-        if(randomObjNum <= M){
-            //Generate another number to read/write from object
-        } else {
-            //Attempts to switch the domains (M+N) - x
-        }
-
-
-
-
-
-
-
-        //Each thread will generate a random # depending on the number of requests
-        //Random rand = new Random();
-        int ranRequests = 1 + rand.nextInt(5);
-
-
-
-
-        //Maybe do the while loop based off of the request??
-        while(true){
-            //Allows the domain to access a random object
-            String userRight = accessMatrix[domainThreadCount][randomObjNum]; //Can be R,W,R/W,-,allow, or deny
+        //Allows the threads to only execute at a min of 5 times
+        for(int i = 0; i < 5; i++) {
+            Random rand = new Random();
+            // Gives me numbers between 1 and 6
+            int ranObjColumnNum = rand.nextInt(accessMatrix[0].length - 1) + 1;
+            String randomObject = accessMatrix[0][ranObjColumnNum]; //Ex f1
+            //The arbitrator function is called to check permissions
+            arbFunction(domainThreadCount, randomObject, ranObjColumnNum);
 
 
         }
-
-
-
-        //The thread will attempt to access a different object
-        //Access a random object by doing a for loop and it should be the length minus the number of domains. It should
-        // then have a random number to access some random object. The domain(or row) should be the domain thread count
-
-        //Doing accessMatrix[domainThreadCount].length - N will allow us to access that row/domain and we have to minus
-        //N because we want just the objects
-
-        //i would be considered the object. No two threads should be allowed to access the
-
-        /*for(int i = 0; i < accessMatrix[domainThreadCount].length - N; i++){
-            String userRight = accessMatrix[domainThreadCount][i]; //R, W, R/W, or -
-            //Calls the arbitrator function to check if this domain has rights to this particular object
-            //Sends DTC and i because we want to check it at that particular row and column
-            arbFunction(userRight, accessMatrix, domainThreadCount, i);
-
-
-
-        }*/
-
-
-
 
     }
 
@@ -166,7 +150,6 @@ public class AccessMatrix extends Thread {
 
 
 
-
-
-
 }
+
+// End code changes by Brianna Jordan.
